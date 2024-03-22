@@ -27,6 +27,10 @@ public class MessageController {
     }
 
     public void sendScheduledMessageToAll(final String message) {
+        if (message == null || message.isEmpty()) {
+            throw new EmptyMessageException();
+        }
+
         if (distributionListController.getAllEntries().isEmpty()) {
             throw new DistributionListEmptyException();
         }
@@ -37,6 +41,10 @@ public class MessageController {
     }
 
     public void sendInstantMessageToAll(final String message) {
+        if (message == null || message.isEmpty()) {
+            throw new EmptyMessageException();
+        }
+
         distributionListController.getAllEntries().forEach(
                 listEntry -> messageClient.sendMessage(new OutboundMessage(listEntry.getNumber(), message)));
     }
