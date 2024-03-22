@@ -56,7 +56,7 @@ public class MessageController {
         }
     }
 
-    @Scheduled(every = "5m")
+    @Scheduled(every = "{message.queue.send.interval}")
     void sendMessageQueue() {
         messageQueue.forEach(outboundMessage -> messageClient.sendMessage(outboundMessage));
         clearMessageQueue();
