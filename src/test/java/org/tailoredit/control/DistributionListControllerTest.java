@@ -25,8 +25,8 @@ public class DistributionListControllerTest {
 
         distributionListController.addDistributionListEntry(listEntry);
 
-        Assertions.assertEquals(distributionListController.getAllEntries().getDistributionEntries().size(), 1);
-        Assertions.assertEquals(distributionListController.getAllEntries().getDistributionEntries().get(0), listEntry);
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 1);
+        Assertions.assertEquals(distributionListController.getAllEntries().get(0), listEntry);
     }
 
     @Test
@@ -54,11 +54,11 @@ public class DistributionListControllerTest {
         distributionListController.addDistributionListEntry(new DistributionListEntry("Bob Jones", "0123456789"));
         distributionListController.addDistributionListEntry(new DistributionListEntry("Jim Smith", "9876543210"));
 
-        Assertions.assertEquals(distributionListController.getAllEntries().getDistributionEntries().size(), 2);
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 2);
 
         distributionListController.deleteAll();
 
-        Assertions.assertEquals(distributionListController.getAllEntries().getDistributionEntries().size(), 0);
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 0);
     }
 
 }

@@ -1,17 +1,15 @@
 package org.tailoredit.entity;
 
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-public class DistributionList {
+@NoArgsConstructor
+public class DistributionList extends ArrayList<DistributionListEntry> {
 
-    private List<DistributionListEntry> distributionEntries;
-
-    public DistributionList() {
-        distributionEntries = new ArrayList<>();
+    public DistributionList(final List<DistributionListEntry> list) {
+        super(list);
     }
 
 }
