@@ -9,7 +9,7 @@ import org.tailoredit.control.MessageController;
 import org.tailoredit.entity.OutboundMessage;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 
@@ -24,8 +24,16 @@ public class MessageResourceTest {
 
     @Test
     void testGetQueuedMessages() {
-        final Map<String, String> queuedMessages = Map.of("0123456789", "Test Message",
-                "9876543210", "Test Message");
+        final Set<OutboundMessage> queuedMessages = Set.of(
+                OutboundMessage.builder()
+                        .number("0123456789")
+                        .message("Test Message")
+                        .build(),
+                OutboundMessage.builder()
+                        .number("9876543210")
+                        .message("Test Message")
+                        .build()
+        );
         Mockito.when(messageController.getMessageQueue()).thenReturn(queuedMessages);
 
         given()

@@ -7,8 +7,8 @@ import lombok.Getter;
 import org.tailoredit.boundary.MessageClient;
 import org.tailoredit.entity.OutboundMessage;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 @ApplicationScoped
 public class MessageController {
@@ -20,30 +20,23 @@ public class MessageController {
     MessageClient messageClient;
 
     @Getter
-    private final Map<String, String> messageQueue;
+    private final Set<OutboundMessage> messageQueue;
 
     public MessageController() {
-        messageQueue = new HashMap<>();
+        messageQueue = new HashSet<>();
     }
 
     public void sendScheduledMessageToAll(final String message) {
-        if (message == null || message.isEmpty()) {
-            throw new EmptyMessageException();
-        }
-
-        if (distributionListController.getAllEntries().isEmpty()) {
-            throw new DistributionListEmptyException();
-        }
+        validateMessageCanBeSent(message);
 
         distributionListController.getAllEntries().stream()
-                .filter(listEntry -> !messageQueue.containsKey(listEntry.getNumber()) || !messageQueue.get(listEntry.getNumber()).equals(message))
-                .forEach(listEntry -> messageQueue.put(listEntry.getNumber(), message));
+                .map(listEntry -> OutboundMessage.builder().number(listEntry.getNumber()).message(message).build())
+                .filter(outboundMessage -> !messageQueue.contains(outboundMessage))
+                .forEach(messageQueue::add);
     }
 
     public void sendInstantMessageToAll(final String message) {
-        if (message == null || message.isEmpty()) {
-            throw new EmptyMessageException();
-        }
+        validateMessageCanBeSent(message);
 
         distributionListController.getAllEntries().forEach(
                 listEntry -> messageClient.sendMessage(new OutboundMessage(listEntry.getNumber(), message)));
@@ -53,9 +46,19 @@ public class MessageController {
         messageQueue.clear();
     }
 
+    private void validateMessageCanBeSent(final String message) {
+        if (message == null || message.isEmpty()) {
+            throw new EmptyMessageException();
+        }
+
+        if (distributionListController.getAllEntries().isEmpty()) {
+            throw new DistributionListEmptyException();
+        }
+    }
+
     @Scheduled(every = "5m")
     void sendMessageQueue() {
-        messageQueue.forEach((number, message) -> messageClient.sendMessage(new OutboundMessage(number, message)));
+        messageQueue.forEach(outboundMessage -> messageClient.sendMessage(outboundMessage));
         clearMessageQueue();
     }
 

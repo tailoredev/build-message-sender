@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class OutboundMessage {
 
-    private String message;
     private String number;
+    private String message;
 
 }

@@ -35,7 +35,6 @@ public class MessageControllerTest {
     @Test
     void testSendScheduledMessageToAllShouldThrowExceptionWhenTheDistributionListIsEmpty() {
         Mockito.when(mockDistributionListController.getAllEntries()).thenReturn(new DistributionList());
-
         Assertions.assertThrows(DistributionListEmptyException.class, () -> messageController.sendScheduledMessageToAll("Test message"));
     }
 
@@ -47,17 +46,31 @@ public class MessageControllerTest {
 
         messageController.sendScheduledMessageToAll(message);
 
-        Assertions.assertEquals(messageController.getMessageQueue().entrySet().size(), 2);
-        Assertions.assertTrue(messageController.getMessageQueue().containsKey(distributionList.get(0).getNumber()));
-        Assertions.assertEquals(messageController.getMessageQueue().get(distributionList.get(0).getNumber()), message);
-        Assertions.assertTrue(messageController.getMessageQueue().containsKey(distributionList.get(1).getNumber()));
-        Assertions.assertEquals(messageController.getMessageQueue().get(distributionList.get(1).getNumber()), message);
+        Assertions.assertEquals(messageController.getMessageQueue().size(), 2);
+        Assertions.assertTrue(messageController.getMessageQueue().stream().anyMatch(outboundMessage ->
+                outboundMessage.getNumber().equals(distributionList.get(0).getNumber())));
+        Assertions.assertEquals(messageController.getMessageQueue().stream()
+                .filter(outboundMessage ->
+                        outboundMessage.getNumber().equals(distributionList.get(0).getNumber()))
+                .findFirst().get().getMessage(), message);
+        Assertions.assertTrue(messageController.getMessageQueue().stream().anyMatch(outboundMessage ->
+                outboundMessage.getNumber().equals(distributionList.get(1).getNumber())));
+        Assertions.assertEquals(messageController.getMessageQueue().stream()
+                .filter(outboundMessage ->
+                        outboundMessage.getNumber().equals(distributionList.get(1).getNumber()))
+                .findFirst().get().getMessage(), message);
     }
 
     @Test
     void testSendInstantMessageToAllShouldThrowExceptionWhenMessageIsNullOrEmpty() {
         Assertions.assertThrows(EmptyMessageException.class, () -> messageController.sendInstantMessageToAll(null));
         Assertions.assertThrows(EmptyMessageException.class, () -> messageController.sendInstantMessageToAll(""));
+    }
+
+    @Test
+    void testSendInstantMessageToAllShouldThrowExceptionWhenTheDistributionListIsEmpty() {
+        Mockito.when(mockDistributionListController.getAllEntries()).thenReturn(new DistributionList());
+        Assertions.assertThrows(DistributionListEmptyException.class, () -> messageController.sendInstantMessageToAll("Test message"));
     }
 
     @Test
@@ -85,11 +98,11 @@ public class MessageControllerTest {
 
         messageController.sendScheduledMessageToAll(message);
 
-        Assertions.assertEquals(messageController.getMessageQueue().entrySet().size(), 2);
+        Assertions.assertEquals(messageController.getMessageQueue().size(), 2);
 
         messageController.clearMessageQueue();
 
-        Assertions.assertEquals(messageController.getMessageQueue().entrySet().size(), 0);
+        Assertions.assertEquals(messageController.getMessageQueue().size(), 0);
     }
 
     @Test
@@ -100,7 +113,7 @@ public class MessageControllerTest {
 
         messageController.sendScheduledMessageToAll(message);
 
-        Assertions.assertEquals(messageController.getMessageQueue().entrySet().size(), 2);
+        Assertions.assertEquals(messageController.getMessageQueue().size(), 2);
 
         messageController.sendMessageQueue();
 
