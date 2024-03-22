@@ -39,7 +39,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    void testSendScheduledMessageToAllShouldSendMessagesWhenTheDistributionListIsPopulated() {
+    void testSendScheduledMessageToAllShouldQueueMessagesWhenTheDistributionListIsPopulated() {
         final String message = "Test message";
         final DistributionList distributionList = generateDistributionList();
         Mockito.when(mockDistributionListController.getAllEntries()).thenReturn(distributionList);
@@ -59,6 +59,19 @@ public class MessageControllerTest {
                 .filter(outboundMessage ->
                         outboundMessage.getNumber().equals(distributionList.get(1).getNumber()))
                 .findFirst().get().getMessage(), message);
+    }
+
+    @Test
+    void testSendScheduledMessageToAllShouldNotQueueDuplicateMessagesWhenDuplicateMessagesAreReceived() {
+        final String message = "Test message";
+        final DistributionList distributionList = generateDistributionList();
+        Mockito.when(mockDistributionListController.getAllEntries()).thenReturn(distributionList);
+
+        messageController.sendScheduledMessageToAll(message);
+        messageController.sendScheduledMessageToAll(message);
+        messageController.sendScheduledMessageToAll(message);
+
+        Assertions.assertEquals(messageController.getMessageQueue().size(), 2);
     }
 
     @Test
