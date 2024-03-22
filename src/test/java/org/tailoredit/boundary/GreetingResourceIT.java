@@ -1,4 +1,4 @@
-package org.tailoredit;
+package org.tailoredit.boundary;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 

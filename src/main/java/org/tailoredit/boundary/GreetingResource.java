@@ -1,4 +1,4 @@
-package org.tailoredit;
+package org.tailoredit.boundary;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
