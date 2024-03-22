@@ -11,7 +11,7 @@ public class DistributionList {
     private List<DistributionListEntry> distributionEntries;
 
     public DistributionList() {
-        this.distributionEntries = new ArrayList<>();
+        distributionEntries = new ArrayList<>();
     }
 
 }

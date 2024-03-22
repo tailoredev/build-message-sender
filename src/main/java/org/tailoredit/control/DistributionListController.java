@@ -1,8 +1,8 @@
 package org.tailoredit.control;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.tailoredit.entity.DistributionListEntry;
 import org.tailoredit.entity.DistributionList;
+import org.tailoredit.entity.DistributionListEntry;
 
 import java.util.ArrayList;
 
@@ -12,23 +12,31 @@ public class DistributionListController {
     private final DistributionList distributionList;
 
     public DistributionListController() {
-        this.distributionList = new DistributionList();
+        distributionList = new DistributionList();
     }
 
     public void addDistributionListEntry(final DistributionListEntry distributionListEntry) {
-        this.distributionList.getDistributionEntries().add(distributionListEntry);
+        distributionList.getDistributionEntries().forEach(listEntry -> {
+            if (listEntry.getName().equals(distributionListEntry.getName())) {
+                throw new DuplicateEntryException("An entry already exists with the name: " + distributionListEntry.getName());
+            } else if (listEntry.getNumber().equals(distributionListEntry.getNumber())) {
+                throw new DuplicateEntryException("An entry already exists with the number: " + distributionListEntry.getNumber());
+            }
+        });
+
+        distributionList.getDistributionEntries().add(distributionListEntry);
     }
 
     public DistributionList getAllEntries() {
-        return this.distributionList;
+        return distributionList;
     }
 
     public void deleteEntry(final DistributionListEntry distributionListEntry) {
-        this.distributionList.getDistributionEntries().remove(distributionListEntry);
+        distributionList.getDistributionEntries().remove(distributionListEntry);
     }
 
     public void deleteAll() {
-        this.distributionList.setDistributionEntries(new ArrayList<>());
+        distributionList.setDistributionEntries(new ArrayList<>());
     }
 
 }

@@ -16,15 +16,15 @@ public class DistributionListResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDistributionList() {
-        return Response.ok().entity(this.distributionListController.getAllEntries()).build();
+        return Response.ok().entity(distributionListController.getAllEntries()).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addEntryToDistributionList(DistributionListEntry distributionListEntry) {
-        this.distributionListController.addDistributionListEntry(distributionListEntry);
-        return Response.ok().entity(this.distributionListController.getAllEntries()).build();
+        distributionListController.addDistributionListEntry(distributionListEntry);
+        return Response.ok().entity(distributionListController.getAllEntries()).build();
     }
 
 }
