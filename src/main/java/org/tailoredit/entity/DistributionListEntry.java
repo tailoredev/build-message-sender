@@ -1,5 +1,6 @@
 package org.tailoredit.entity;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
+@RegisterForReflection
 public class DistributionListEntry {
 
     @NotBlank(message = "Name may not be blank")
