@@ -103,6 +103,17 @@ public class MessageResourceTest {
     }
 
     @Test
+    void testDeleteQueueMessages () {
+        given()
+                .when()
+                .delete("/message/queued")
+                .then()
+                .statusCode(200);
+
+        Mockito.verify(messageController, Mockito.times(1)).clearMessageQueue();
+    }
+
+    @Test
     void testDistributionListEmptyExceptionsAreCorrectlyMapped() {
         final String message = "Test message";
         Mockito.doThrow(new DistributionListEmptyException())

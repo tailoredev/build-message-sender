@@ -32,9 +32,25 @@ public class DistributionListResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addEntryToDistributionList(DistributionListEntry distributionListEntry) {
+    public Response addEntryToDistributionList(final DistributionListEntry distributionListEntry) {
         distributionListController.addDistributionListEntry(distributionListEntry);
         return Response.ok().entity(distributionListController.getAllEntries()).build();
     }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteEntryFromDistributionList(final DistributionListEntry distributionListEntry) {
+        distributionListController.deleteEntry(distributionListEntry);
+        return Response.ok().entity(distributionListController.getAllEntries()).build();
+    }
+
+    @DELETE
+    @Path("/all")
+    public Response deleteAllEntriesFromDistributionList() {
+        distributionListController.deleteAll();
+        return Response.ok().build();
+    }
+
 
 }

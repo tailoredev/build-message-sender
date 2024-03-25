@@ -61,4 +61,11 @@ public class MessageResource {
         return Response.ok().build();
     }
 
+    @DELETE
+    @Path("/queued")
+    public Response deleteQueueMessages() {
+        messageController.clearMessageQueue();
+        return Response.ok().build();
+    }
+
 }

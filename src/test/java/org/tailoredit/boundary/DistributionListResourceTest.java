@@ -25,9 +25,12 @@ class DistributionListResourceTest {
 
     @Test
     void testGetDistributionList() {
-        Mockito.when(distributionListController.getAllEntries()).thenReturn(new DistributionList());
+        final DistributionListEntry listEntry = new DistributionListEntry("Jane Doe", "0123456789");
+        final DistributionList distributionList = new DistributionList(List.of(listEntry));
 
-        final DistributionList distributionList = given()
+        Mockito.when(distributionListController.getAllEntries()).thenReturn(distributionList);
+
+        final DistributionList responseDistributionList = given()
                 .when()
                 .contentType(ContentType.JSON)
                 .get("/distribution-list")
@@ -36,7 +39,55 @@ class DistributionListResourceTest {
                 .extract()
                 .as(DistributionList.class);
 
-        Assertions.assertTrue(distributionList.isEmpty());
+        Assertions.assertEquals(1, responseDistributionList.size());
+        Assertions.assertTrue(responseDistributionList.contains(listEntry));
+    }
+
+    @Test
+    void testAddEntryToDistributionList() {
+        final DistributionListEntry listEntry = new DistributionListEntry("Jane Doe", "0123456789");
+        Mockito.when(distributionListController.getAllEntries()).thenReturn(new DistributionList());
+
+        final DistributionList responseDistributionList = given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(listEntry)
+                .post("/distribution-list")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(DistributionList.class);
+
+        Mockito.verify(distributionListController, Mockito.times(1)).addDistributionListEntry(listEntry);
+    }
+
+    @Test
+    void testDeleteEntryFromDistributionList() {
+        final DistributionListEntry listEntry = new DistributionListEntry("Jane Doe", "0123456789");
+        Mockito.when(distributionListController.getAllEntries()).thenReturn(new DistributionList());
+
+        final DistributionList distributionList = given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(listEntry)
+                .delete("/distribution-list")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(DistributionList.class);
+
+        Mockito.verify(distributionListController, Mockito.times(1)).deleteEntry(listEntry);
+    }
+
+    @Test
+    void testDeleteAllEntriesFromDistributionList() {
+        given()
+                .when()
+                .delete("/distribution-list/all")
+                .then()
+                .statusCode(200);
+
+        Mockito.verify(distributionListController, Mockito.times(1)).deleteAll();
     }
 
     @Test

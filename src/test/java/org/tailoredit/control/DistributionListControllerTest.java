@@ -50,6 +50,23 @@ public class DistributionListControllerTest {
     }
 
     @Test
+    void testDeleteEntryShouldDeleteEntry() {
+        final DistributionListEntry firstEntry = new DistributionListEntry("Bob Jones", "0123456789");
+        final DistributionListEntry secondEntry = new DistributionListEntry("Jim Smith", "9876543210");
+
+        distributionListController.addDistributionListEntry(firstEntry);
+        distributionListController.addDistributionListEntry(secondEntry);
+
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 2);
+
+        distributionListController.deleteEntry(firstEntry);
+
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 1);
+        Assertions.assertFalse(distributionListController.getAllEntries().contains(firstEntry));
+        Assertions.assertTrue(distributionListController.getAllEntries().contains(secondEntry));
+    }
+
+    @Test
     void testDeleteAllShouldDeleteAllEntries() {
         distributionListController.addDistributionListEntry(new DistributionListEntry("Bob Jones", "0123456789"));
         distributionListController.addDistributionListEntry(new DistributionListEntry("Jim Smith", "9876543210"));
