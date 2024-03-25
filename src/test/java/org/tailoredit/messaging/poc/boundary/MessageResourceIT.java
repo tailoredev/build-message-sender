@@ -1,8 +1,8 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-class GreetingResourceIT extends GreetingResourceTest {
+class MessageResourceIT extends MessageResourceTest {
     // Execute the same tests but in packaged mode.
 }

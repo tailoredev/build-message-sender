@@ -1,4 +1,4 @@
-package org.tailoredit.control;
+package org.tailoredit.messaging.poc.control;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.tailoredit.boundary.MessageClient;
-import org.tailoredit.entity.DistributionList;
-import org.tailoredit.entity.DistributionListEntry;
-import org.tailoredit.entity.OutboundMessage;
+import org.tailoredit.messaging.poc.boundary.MessageClient;
+import org.tailoredit.messaging.poc.entity.DistributionList;
+import org.tailoredit.messaging.poc.entity.DistributionListEntry;
+import org.tailoredit.messaging.poc.entity.OutboundMessage;
 
 import java.util.List;
 

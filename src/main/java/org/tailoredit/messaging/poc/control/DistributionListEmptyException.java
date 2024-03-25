@@ -1,4 +1,4 @@
-package org.tailoredit.control;
+package org.tailoredit.messaging.poc.control;
 
 public class DistributionListEmptyException extends RuntimeException {
 

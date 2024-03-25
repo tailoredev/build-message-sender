@@ -1,8 +1,8 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Getter;
-import org.tailoredit.entity.OutboundMessage;
+import org.tailoredit.messaging.poc.entity.OutboundMessage;
 
 import java.util.ArrayList;
 import java.util.List;

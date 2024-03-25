@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.tailoredit.control.DistributionListController;
-import org.tailoredit.control.DistributionListEntryNotFoundException;
-import org.tailoredit.control.DuplicateEntryException;
-import org.tailoredit.entity.DistributionList;
-import org.tailoredit.entity.DistributionListEntry;
+import org.tailoredit.messaging.poc.control.DistributionListController;
+import org.tailoredit.messaging.poc.control.DistributionListEntryNotFoundException;
+import org.tailoredit.messaging.poc.control.DuplicateEntryException;
+import org.tailoredit.messaging.poc.entity.DistributionList;
+import org.tailoredit.messaging.poc.entity.DistributionListEntry;
 
 import java.util.List;
 
@@ -125,7 +125,7 @@ class DistributionListResourceTest {
                 .post("/distribution-list")
                 .then()
                 .statusCode(400)
-                .body(Matchers.equalTo(DistributionListResource.DELETE_EXCEPTION_PREFIX + exception));
+                .body(Matchers.equalTo(DistributionListResource.ADD_EXCEPTION_PREFIX + exception));
     }
 
     @Test

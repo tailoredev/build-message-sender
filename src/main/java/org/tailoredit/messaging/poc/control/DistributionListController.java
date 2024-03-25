@@ -1,8 +1,8 @@
-package org.tailoredit.control;
+package org.tailoredit.messaging.poc.control;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.tailoredit.entity.DistributionList;
-import org.tailoredit.entity.DistributionListEntry;
+import org.tailoredit.messaging.poc.entity.DistributionList;
+import org.tailoredit.messaging.poc.entity.DistributionListEntry;
 
 @ApplicationScoped
 public class DistributionListController {

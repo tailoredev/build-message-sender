@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

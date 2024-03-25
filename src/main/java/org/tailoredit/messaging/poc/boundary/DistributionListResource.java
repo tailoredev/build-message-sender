@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -6,10 +6,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
-import org.tailoredit.control.DistributionListController;
-import org.tailoredit.control.DistributionListEntryNotFoundException;
-import org.tailoredit.control.DuplicateEntryException;
-import org.tailoredit.entity.DistributionListEntry;
+import org.tailoredit.messaging.poc.control.DistributionListController;
+import org.tailoredit.messaging.poc.control.DistributionListEntryNotFoundException;
+import org.tailoredit.messaging.poc.control.DuplicateEntryException;
+import org.tailoredit.messaging.poc.entity.DistributionListEntry;
 
 @Path("/distribution-list")
 public class DistributionListResource {

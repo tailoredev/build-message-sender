@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -6,9 +6,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
-import org.tailoredit.control.DistributionListEmptyException;
-import org.tailoredit.control.EmptyMessageException;
-import org.tailoredit.control.MessageController;
+import org.tailoredit.messaging.poc.control.DistributionListEmptyException;
+import org.tailoredit.messaging.poc.control.EmptyMessageException;
+import org.tailoredit.messaging.poc.control.MessageController;
 
 @Path("/message")
 public class MessageResource {

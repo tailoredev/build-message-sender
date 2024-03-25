@@ -1,11 +1,11 @@
-package org.tailoredit.control;
+package org.tailoredit.messaging.poc.control;
 
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.tailoredit.entity.DistributionListEntry;
+import org.tailoredit.messaging.poc.entity.DistributionListEntry;
 
 @QuarkusTest
 public class DistributionListControllerTest {

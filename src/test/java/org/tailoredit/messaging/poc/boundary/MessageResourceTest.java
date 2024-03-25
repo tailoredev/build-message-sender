@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -7,10 +7,10 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.tailoredit.control.DistributionListEmptyException;
-import org.tailoredit.control.EmptyMessageException;
-import org.tailoredit.control.MessageController;
-import org.tailoredit.entity.OutboundMessage;
+import org.tailoredit.messaging.poc.control.DistributionListEmptyException;
+import org.tailoredit.messaging.poc.control.EmptyMessageException;
+import org.tailoredit.messaging.poc.control.MessageController;
+import org.tailoredit.messaging.poc.entity.OutboundMessage;
 
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.tailoredit.boundary;
+package org.tailoredit.messaging.poc.boundary;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

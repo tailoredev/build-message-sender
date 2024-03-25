@@ -1,11 +1,11 @@
-package org.tailoredit.control;
+package org.tailoredit.messaging.poc.control;
 
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.Getter;
-import org.tailoredit.boundary.MessageClient;
-import org.tailoredit.entity.OutboundMessage;
+import org.tailoredit.messaging.poc.boundary.MessageClient;
+import org.tailoredit.messaging.poc.entity.OutboundMessage;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.tailoredit.entity;
+package org.tailoredit.messaging.poc.entity;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
