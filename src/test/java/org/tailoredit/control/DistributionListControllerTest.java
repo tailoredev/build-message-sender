@@ -30,7 +30,7 @@ public class DistributionListControllerTest {
     }
 
     @Test
-    void testAddDistributionListEntryDoesNotAcceptDuplicateEntryNames() {
+    void testAddDistributionListEntryShouldNotAcceptDuplicateEntryNames() {
         final DistributionListEntry listEntryOne = new DistributionListEntry("Bob Jones", "0123456789");
         final DistributionListEntry listEntryTwo = new DistributionListEntry("Bob Jones", "9876543210");
 
@@ -40,7 +40,7 @@ public class DistributionListControllerTest {
     }
 
     @Test
-    void testAddDistributionListEntryDoesNotAcceptDuplicateEntryNumber() {
+    void testAddDistributionListEntryShouldNotAcceptDuplicateEntryNumber() {
         final DistributionListEntry listEntryOne = new DistributionListEntry("Bob Jones", "0123456789");
         final DistributionListEntry listEntryTwo = new DistributionListEntry("Jim Smith", "0123456789");
 
@@ -50,7 +50,22 @@ public class DistributionListControllerTest {
     }
 
     @Test
-    void testDeleteEntryShouldDeleteEntry() {
+    void testDeleteEntryShouldThrowExceptionWhenTheEntryIsUnknown() {
+        final DistributionListEntry firstEntry = new DistributionListEntry("Bob Jones", "0123456789");
+        final DistributionListEntry secondEntry = new DistributionListEntry("Jim Smith", "9876543210");
+        final DistributionListEntry thirdEntry = new DistributionListEntry("Jane Doe", "9632587410");
+
+        distributionListController.addDistributionListEntry(firstEntry);
+        distributionListController.addDistributionListEntry(secondEntry);
+
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 2);
+
+        Assertions.assertThrows(DistributionListEntryNotFoundException.class, () -> distributionListController.deleteEntry(thirdEntry));
+        Assertions.assertEquals(distributionListController.getAllEntries().size(), 2);
+    }
+
+    @Test
+    void testDeleteEntryShouldDeleteEntryWhenTheEntryIsKnown() {
         final DistributionListEntry firstEntry = new DistributionListEntry("Bob Jones", "0123456789");
         final DistributionListEntry secondEntry = new DistributionListEntry("Jim Smith", "9876543210");
 

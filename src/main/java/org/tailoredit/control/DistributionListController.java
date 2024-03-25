@@ -30,6 +30,10 @@ public class DistributionListController {
     }
 
     public void deleteEntry(final DistributionListEntry distributionListEntry) {
+        if (!distributionList.contains(distributionListEntry)) {
+            throw new DistributionListEntryNotFoundException();
+        }
+
         distributionList.remove(distributionListEntry);
     }
 

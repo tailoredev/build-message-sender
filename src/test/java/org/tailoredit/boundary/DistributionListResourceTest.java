@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.tailoredit.control.DistributionListController;
+import org.tailoredit.control.DistributionListEntryNotFoundException;
 import org.tailoredit.control.DuplicateEntryException;
 import org.tailoredit.entity.DistributionList;
 import org.tailoredit.entity.DistributionListEntry;
@@ -124,7 +125,24 @@ class DistributionListResourceTest {
                 .post("/distribution-list")
                 .then()
                 .statusCode(400)
-                .body(Matchers.equalTo(DistributionListResource.EXCEPTION_PREFIX + exception));
+                .body(Matchers.equalTo(DistributionListResource.DELETE_EXCEPTION_PREFIX + exception));
+    }
+
+    @Test
+    void testDistributionListEntryNotFoundExceptionsAreCorrectlyMapped() {
+        final DistributionListEntry listEntry = new DistributionListEntry("Test Entry", "0123456789");
+
+        Mockito.doThrow(new DistributionListEntryNotFoundException())
+                .when(distributionListController).deleteEntry(ArgumentMatchers.eq(listEntry));
+
+        given()
+                .when()
+                .body(listEntry)
+                .contentType(ContentType.JSON)
+                .delete("/distribution-list")
+                .then()
+                .statusCode(400)
+                .body(Matchers.equalTo(DistributionListResource.DELETE_EXCEPTION_PREFIX + DistributionListEntryNotFoundException.EXCEPTION_MESSAGE));
     }
 
 }
