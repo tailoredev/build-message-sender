@@ -2,8 +2,10 @@ package org.tailoredit.control;
 
 public class DistributionListEmptyException extends RuntimeException {
 
+    public static final String EXCEPTION_MESSAGE = "The distribution list is empty";
+
     public DistributionListEmptyException() {
-        super("The distribution list is empty");
+        super(EXCEPTION_MESSAGE);
     }
 
 }

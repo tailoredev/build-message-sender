@@ -4,14 +4,24 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.resteasy.reactive.RestResponse;
+import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.tailoredit.control.DistributionListController;
+import org.tailoredit.control.DuplicateEntryException;
 import org.tailoredit.entity.DistributionListEntry;
 
 @Path("/distribution-list")
 public class DistributionListResource {
 
+    public static final String EXCEPTION_PREFIX = "Unable to add list entry: ";
+
     @Inject
     DistributionListController distributionListController;
+
+    @ServerExceptionMapper
+    public RestResponse<String> mapException(DuplicateEntryException ex) {
+        return RestResponse.status(Response.Status.BAD_REQUEST, EXCEPTION_PREFIX + ex.getMessage());
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

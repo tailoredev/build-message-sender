@@ -3,11 +3,13 @@ package org.tailoredit.boundary;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.tailoredit.control.DistributionListController;
+import org.tailoredit.control.DuplicateEntryException;
 import org.tailoredit.entity.DistributionList;
 import org.tailoredit.entity.DistributionListEntry;
 
@@ -54,6 +56,24 @@ class DistributionListResourceTest {
 
         Mockito.verify(distributionListController, Mockito.times(1)).addDistributionListEntry(ArgumentMatchers.eq(expectedListEntry));
         Assertions.assertEquals(distributionList.size(), 1);
+    }
+
+    @Test
+    void testDuplicateEntryExceptionsAreCorrectlyMapped() {
+        final String exception = "Test Duplicate Entry Exception";
+        final DistributionListEntry listEntry = new DistributionListEntry("Test Entry", "0123456789");
+
+        Mockito.doThrow(new DuplicateEntryException(exception))
+                .when(distributionListController).addDistributionListEntry(ArgumentMatchers.eq(listEntry));
+
+        given()
+                .when()
+                .body(listEntry)
+                .contentType(ContentType.JSON)
+                .post("/distribution-list")
+                .then()
+                .statusCode(400)
+                .body(Matchers.equalTo(DistributionListResource.EXCEPTION_PREFIX + exception));
     }
 
 }

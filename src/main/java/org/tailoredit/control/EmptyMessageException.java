@@ -2,8 +2,10 @@ package org.tailoredit.control;
 
 public class EmptyMessageException extends RuntimeException {
 
+    public static final String EXCEPTION_MESSAGE = "Message cannot be empty";
+
     public EmptyMessageException() {
-        super("Message cannot be empty");
+        super(EXCEPTION_MESSAGE);
     }
 
 }

@@ -3,8 +3,12 @@ package org.tailoredit.boundary;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.tailoredit.control.DistributionListEmptyException;
+import org.tailoredit.control.EmptyMessageException;
 import org.tailoredit.control.MessageController;
 import org.tailoredit.entity.OutboundMessage;
 
@@ -42,7 +46,7 @@ public class MessageResourceTest {
                 .get("/message/queued")
                 .then()
                 .statusCode(200);
-        // TODO - Validate the actual response here
+        // TODO - Validate the actual response body here
     }
 
     @Test
@@ -65,7 +69,7 @@ public class MessageResourceTest {
                 .get("/message/sent")
                 .then()
                 .statusCode(200);
-        // TODO - Validate the actual response here
+        // TODO - Validate the actual response body here
     }
 
     @Test
@@ -96,6 +100,38 @@ public class MessageResourceTest {
                 .statusCode(200);
 
         Mockito.verify(messageController, Mockito.times(1)).sendScheduledMessageToAll(message);
+    }
+
+    @Test
+    void testDistributionListEmptyExceptionsAreCorrectlyMapped() {
+        final String message = "Test message";
+        Mockito.doThrow(new DistributionListEmptyException())
+                .when(messageController).sendInstantMessageToAll(ArgumentMatchers.eq(message));
+
+        given()
+                .when()
+                .body(message)
+                .contentType(ContentType.JSON)
+                .post("/message/send/all/instant")
+                .then()
+                .statusCode(400)
+                .body(Matchers.equalTo("Unable to send message: " + DistributionListEmptyException.EXCEPTION_MESSAGE));
+    }
+
+    @Test
+    void testEmptyMessageExceptionsAreCorrectlyMapped() {
+        final String message = "Test message";
+        Mockito.doThrow(new EmptyMessageException())
+                .when(messageController).sendInstantMessageToAll(ArgumentMatchers.eq(message));
+
+        given()
+                .when()
+                .body(message)
+                .contentType(ContentType.JSON)
+                .post("/message/send/all/instant")
+                .then()
+                .statusCode(400)
+                .body(Matchers.equalTo(MessageResource.EXCEPTION_PREFIX + EmptyMessageException.EXCEPTION_MESSAGE));
     }
 
 }
